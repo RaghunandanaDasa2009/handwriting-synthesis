@@ -1,0 +1,57 @@
+Schritt 1: Vorbereitung (Terminals öffnen)
+Du brauchst drei Terminal-Fenster (oder Tabs), die alle im Ordner ~/Documents/Programming/nodejs/larry/handwriting_rnn geöffnet sind.
+
+Terminal 1: Der Datensammler (Python Server)
+
+Bash
+
+source venv/bin/activate
+python3 collect_data.py
+Terminal 2: Der Tunnel (Damit dein Tablet den Server findet)
+
+Bash
+
+npx lt --port 8000
+Kopiere die URL, die dort erscheint, und öffne sie auf deinem Tablet.
+
+Terminal 3: Dein Fortschritts-Monitor Hier siehst du live, wie viele Sätze du schon erfolgreich gespeichert hast:
+
+Bash
+
+watch -n 2 "wc -l handwriting_data.jsonl"
+Schritt 2: Daten sammeln (Die Schreib-Arbeit)
+Schreibe jetzt auf dem Tablet. Ziel sind mindestens 50-60 Zeilen. Nutze die Liste von vorhin:
+
+Alphabet: Einmal a-z, einmal A-Z.
+
+Zahlen: 0-9.
+
+Pangramme: „Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.“
+
+Larry-Spezial: „print('Hallo Welt')“, „sudo apt update“, „Larry ist eine KI“.
+
+Wichtig: Drücke nach jedem Wort oder Satz auf dem Tablet auf „SPEICHERN“.
+
+Schritt 3: Die Pipeline aktualisieren (Wenn du 60 Zeilen hast)
+Sobald Terminal 3 „60“ anzeigt, kannst du die Server in Terminal 1 und 2 mit Strg+C stoppen. Führe dann nacheinander diese Befehle in Terminal 1 aus:
+
+1. Daten in KI-Format umwandeln:
+
+Bash
+
+python3 prepare_tensors.py
+2. Das optimierte Modell & Training-Skript speichern (falls noch nicht geschehen): Kopiere die optimierten Codes für model.py und train.py aus meiner vorherigen Nachricht in die Dateien (mit nano oder einfach den cat-Befehl von oben nutzen).
+
+3. Das Training starten:
+
+Bash
+
+python3 train.py
+Warte, bis die 200 Epochen durchgelaufen sind. Der „Loss“-Wert sollte deutlich kleiner werden.
+
+Schritt 4: Das Ergebnis prüfen
+Lass uns sehen, ob die Spirale weg ist. Erstelle/starte das Generator-Skript:
+
+Bash
+
+python3 generate.py
